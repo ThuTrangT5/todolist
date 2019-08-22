@@ -44,6 +44,16 @@ class ViewController: UIViewController {
     }
 
     func setupRx() {
+        self.viewModel.loading
+            .bind(to: self.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.error
+            .subscribe(onNext: { [weak self](errorMessage) in
+                self?.showErrorMessage(message: errorMessage)
+            })
+            .disposed(by: disposeBag)
+        
         // text field
         self.textField.rx
             .controlEvent(UIControl.Event.editingDidEnd)
@@ -59,6 +69,13 @@ class ViewController: UIViewController {
         self.viewModel.todoList
             .bind(to: self.tableView.rx.items(cellIdentifier: "cell", cellType: TodoTableViewCell.self)) { (row, model, cell) in
                 cell.todoItem = model
+                cell.updateItemHandler = { (itemID) in
+                    self.viewModel.updateStatus(todoIDs: [itemID], newStatus: TodoStatus.done)
+                }
+                
+                cell.deleteItemHandler = { (itemID) in
+                   self.viewModel.deleteItem(itemID: itemID)
+                }
             }
         .disposed(by: disposeBag)
         
@@ -80,6 +97,22 @@ class ViewController: UIViewController {
     
     @objc func reloadData() {
         self.refresh.endRefreshing()
+    }
+    
+    @IBAction func onchangeFilter(_ sender: Any) {
+        switch self.segmentFilter.selectedSegmentIndex {
+        case 0:
+            self.viewModel.selectedStatus.onNext(TodoStatus.all)
+            break
+        case 1:
+            self.viewModel.selectedStatus.onNext(TodoStatus.done)
+            break
+        case 2:
+            self.viewModel.selectedStatus.onNext(TodoStatus.active)
+            break
+        default:
+            break
+        }
     }
 }
 

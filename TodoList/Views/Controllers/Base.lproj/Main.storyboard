@@ -40,7 +40,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="thing to do" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xP2-U8-7tZ">
-                                                    <rect key="frame" x="50" y="20" width="349" height="40.5"/>
+                                                    <rect key="frame" x="50" y="20" width="314" height="40.5"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -62,16 +62,29 @@
                                                         <action selector="ontouchStatus:" destination="GHg-U7-u5x" eventType="touchUpInside" id="UgZ-NL-BJr"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBo-rc-0q3">
+                                                    <rect key="frame" x="364" y="0.0" width="50" height="80.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="HTg-kF-1ZS"/>
+                                                    </constraints>
+                                                    <state key="normal" image="ic_delete"/>
+                                                    <connections>
+                                                        <action selector="ontouchDelete:" destination="GHg-U7-u5x" eventType="touchUpInside" id="M0k-vB-Rze"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="xP2-U8-7tZ" firstAttribute="leading" secondItem="3CJ-ze-AVt" secondAttribute="trailing" constant="15" id="Cdj-wn-nDp"/>
+                                                <constraint firstItem="MBo-rc-0q3" firstAttribute="top" secondItem="x4b-nV-fw7" secondAttribute="top" id="Phy-NF-6oX"/>
                                                 <constraint firstItem="xP2-U8-7tZ" firstAttribute="top" secondItem="x4b-nV-fw7" secondAttribute="top" constant="20" id="Q2I-dH-Ij8"/>
+                                                <constraint firstAttribute="bottom" secondItem="MBo-rc-0q3" secondAttribute="bottom" id="WRc-0i-1eF"/>
                                                 <constraint firstItem="xP2-U8-7tZ" firstAttribute="centerY" secondItem="x4b-nV-fw7" secondAttribute="centerY" id="WzT-It-bRr"/>
                                                 <constraint firstItem="a77-HH-72n" firstAttribute="centerY" secondItem="x4b-nV-fw7" secondAttribute="centerY" id="YNq-8J-EVB"/>
                                                 <constraint firstItem="3CJ-ze-AVt" firstAttribute="leading" secondItem="x4b-nV-fw7" secondAttribute="leading" constant="15" id="bz1-49-ncT"/>
-                                                <constraint firstAttribute="trailing" secondItem="xP2-U8-7tZ" secondAttribute="trailing" constant="15" id="cn6-Fw-yKX"/>
                                                 <constraint firstItem="3CJ-ze-AVt" firstAttribute="centerY" secondItem="x4b-nV-fw7" secondAttribute="centerY" id="mgB-nl-EXg"/>
+                                                <constraint firstAttribute="trailing" secondItem="MBo-rc-0q3" secondAttribute="trailing" id="oXR-ar-Ak0"/>
                                                 <constraint firstItem="a77-HH-72n" firstAttribute="centerX" secondItem="3CJ-ze-AVt" secondAttribute="centerX" id="tTl-vc-Jyl"/>
+                                                <constraint firstItem="MBo-rc-0q3" firstAttribute="leading" secondItem="xP2-U8-7tZ" secondAttribute="trailing" id="vd7-vr-XDR"/>
                                                 <constraint firstItem="a77-HH-72n" firstAttribute="centerY" secondItem="3CJ-ze-AVt" secondAttribute="centerY" id="xnv-CA-bcm"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -110,6 +123,9 @@
                                     <segment title="Active"/>
                                 </segments>
                                 <color key="tintColor" red="1" green="0.61568627450000002" blue="0.015686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="onchangeFilter:" destination="BYZ-38-t0r" eventType="valueChanged" id="AbC-zS-jgc"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -170,6 +186,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ic_delete" width="12" height="12"/>
         <image name="ic_unselected" width="50" height="50"/>
     </resources>
 </document>

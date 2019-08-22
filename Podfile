@@ -5,4 +5,7 @@ target 'TodoList' do
 
   pod 'RxSwift'
   pod 'RxCocoa'
+  
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
 end
