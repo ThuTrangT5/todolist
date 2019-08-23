@@ -114,6 +114,15 @@ class ViewController: UIViewController {
             break
         }
     }
+    
+    @IBAction func ontouchToggleAll(_ sender: Any) {
+        guard let displayedIndexPath = self.tableView.indexPathsForVisibleRows else { return }
+        let indexes = displayedIndexPath.map { (indexPath) -> Int in
+            return indexPath.row
+        }
+        
+        self.viewModel.changeTodoStatusBySelectedIndexes(indexes: indexes)
+    }
 }
 
 extension ViewController: UITextFieldDelegate {

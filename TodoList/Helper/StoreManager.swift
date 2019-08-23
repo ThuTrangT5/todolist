@@ -24,9 +24,9 @@ class StoreManager: NSObject {
         let ref = Firestore.firestore().collection(StoreManager.COLLECTION)
         var query: Query?
         if status != .all {
-            query = ref.whereField("status", isEqualTo: status.rawValue)
+            query = ref.whereField("status", isEqualTo: status.rawValue).order(by: "created")
         } else {
-            query = ref.order(by: "status")
+            query = ref.order(by: "status").order(by: "created")
         }
         query?
             .getDocuments { (snapshot, error) in
@@ -53,20 +53,24 @@ class StoreManager: NSObject {
     
     func addTodoItem(name: String, callback: ((TodoItem?, Error?) -> Void)?) {
         // Add a new document with a generated ID
+        
+        let documentData: [String: Any] = [
+            "name": name,
+            "status": TodoStatus.active.rawValue,
+            "created": Date().timeIntervalSince1970
+        ]
+        
         var ref: DocumentReference? = nil
         ref = Firestore.firestore()
             .collection(StoreManager.COLLECTION)
-            .addDocument(data: [
-                "name": name,
-                "status": TodoStatus.active.rawValue
-            ]) { err in
+            .addDocument(data: documentData) { err in
                 if let err = err {
                     print("Error adding document: \(err)")
                     callback?(nil, err)
                     
-                } else if let doc = ref {
-                    print("Document added with ID: \(doc.documentID)")
-                    let item = TodoItem(document: doc)
+                } else if let docRef = ref {
+                    print("Document added with ID: \(docRef.documentID)")
+                    let item = TodoItem(identifier: docRef.documentID, dictionary: documentData)
                     callback?(item, nil)
                 }
         }
@@ -102,6 +106,28 @@ class StoreManager: NSObject {
         
         for id in itemIDs {
             let ref = db.collection(StoreManager.COLLECTION).document(id)
+            batch.updateData(["status": newStatus.rawValue], forDocument: ref)
+        }
+        
+        // Commit the batch
+        batch.commit { (error) in
+            callback?(error)
+        }
+    }
+    
+    func changeStatus(items: [TodoItem], callback: ((Error?) -> Void)?) {
+        let db = Firestore.firestore()
+        
+        // Get new write batch
+        let batch = db.batch()
+        
+        for item in items {
+            guard let itemID = item.id else {
+                continue
+            }
+            
+            let newStatus: TodoStatus = (item.status == .done) ? .active : .done
+            let ref = db.collection(StoreManager.COLLECTION).document(itemID)
             batch.updateData(["status": newStatus.rawValue], forDocument: ref)
         }
         

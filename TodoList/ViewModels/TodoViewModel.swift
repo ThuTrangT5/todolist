@@ -36,12 +36,16 @@ class TodoViewModel: NSObject {
         
         StoreManager.shared
             .addTodoItem(name: name) { [weak self](item, error) in
-                if let item = item {
+                if let errMessage = error?.localizedDescription {
+                    self?.error.onNext(errMessage)
+                    
+                } else if let item = item,
+                    let currentStatus = try? self?.selectedStatus.value(),
+                    currentStatus == .all || currentStatus == .active {
+                    // only update list item if selected status is NOT DONE
                     guard var currentList = try? self?.todoList.value() else { return }
                     currentList.append(item)
                     self?.todoList.onNext(currentList)
-                } else if let errMessage = error?.localizedDescription {
-                    self?.error.onNext(errMessage)
                 }
         }
     }
@@ -85,6 +89,27 @@ class TodoViewModel: NSObject {
                     self?.todoList.onNext(items)
                 } else if let errMessage = error?.localizedDescription {
                     self?.error.onNext(errMessage)
+                }
+        }
+    }
+    
+    func changeTodoStatusBySelectedIndexes(indexes: [Int]) {
+        self.loading.onNext(true)
+        
+        var items: [TodoItem] = []
+        let currentList = (try? self.todoList.value()) ?? []
+        
+        for i in indexes {
+            items.append(currentList[i])
+        }
+        
+        StoreManager.shared
+            .changeStatus(items: items) { [weak self](error) in
+                 self?.loading.onNext(false)
+                if let errMessage = error?.localizedDescription {
+                    self?.error.onNext(errMessage)
+                } else {
+                    self?.getTodoList()
                 }
         }
     }

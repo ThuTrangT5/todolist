@@ -105,6 +105,9 @@
                                 <state key="normal" title="Toggle All">
                                     <color key="titleColor" red="1" green="0.61568627450000002" blue="0.015686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="ontouchToggleAll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="v7O-kO-Ob1"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fillter" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lsv-NC-SeN">
                                 <rect key="frame" x="15" y="242" width="39.5" height="32"/>

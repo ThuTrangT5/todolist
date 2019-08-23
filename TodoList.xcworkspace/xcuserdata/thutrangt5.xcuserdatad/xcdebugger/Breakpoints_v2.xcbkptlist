@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TodoList/Views/Controllers/ViewController.swift"
-            timestampString = "588102122.933099"
+            filePath = "TodoList/Views/Cells/TodoTableViewCell.swift"
+            timestampString = "588186692.03918"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "textFieldShouldReturn(_:)"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "ontouchDelete(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
